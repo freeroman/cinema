@@ -1,0 +1,86 @@
+{**
+ * My Application layout template.
+ *
+ * @param string   $basePath web base path
+ * @param string   $robots   tell robots how to index the content of a page (optional)
+ * @param array    $flashes  flash messages
+ *}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="robots" content="{$robots}" n:ifset="$robots">
+
+	<title>{block title|striptags|upper}Nette Application Skeleton{/block}</title>
+
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css">
+        
+        <link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{$basePath}/css/jumbotron-narrow.css">
+	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
+	{block head}{/block}
+</head>
+
+<body>
+	<script> document.documentElement.className+=' js' </script>
+        {snippet flash}
+	<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+        {/snippet}
+        
+        <div class="container">
+        <div class="header">
+          <ul class="nav nav-pills pull-right">
+            <li class="active"><a n:href="Homepage:">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+            <h3 class="text-muted"><a n:href="Homepage:">Cinema</a></h3>
+        </div>
+            
+            
+        {include content}
+        {*
+          <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+        </div>
+
+        <div class="row marketing">
+          <div class="col-lg-6">
+            <h4>Subheading</h4>
+            <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+            <h4>Subheading</h4>
+            <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+            <h4>Subheading</h4>
+            <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+          </div>
+
+          <div class="col-lg-6">
+            <h4>Subheading</h4>
+            <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+            <h4>Subheading</h4>
+            <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+            <h4>Subheading</h4>
+            <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+          </div>
+        </div>
+        *}
+
+        <div class="footer">
+          <p>&copy; Roman Pechal 2014</p>
+        </div>
+
+	{block scripts}
+	<script src="{$basePath}/js/jquery.js"></script>
+	<script src="{$basePath}/js/netteForms.js"></script>
+	<script src="{$basePath}/js/nette.ajax.js"></script>
+        <script src="{$basePath}/js/bootstrap.min.js"></script>
+	<script src="{$basePath}/js/main.js"></script>
+	{/block}
+</body>
+</html>

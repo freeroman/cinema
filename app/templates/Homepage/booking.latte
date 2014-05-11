@@ -1,0 +1,33 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-2">
+                <h2><a n:href="Homepage:" class="btn btn-default">« Back</a></h2>
+            </div>
+            <div class="col-md-8 text-center">
+                <h2>{$performance['name']}</h2>
+                <h3>Starts at {$performance['start_dt']|date:'d. M H:i'}</h3>
+            </div>
+            <div class="col-md-2">
+                <h2><a id="proceed" n:href="Homepage:proceed" class="btn btn-default">Proceed »</a></h2>
+            </div>
+        </div>
+            <label>Numb of seats</label>
+            <select id="seats-number" class="form-control">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>
+        <div n:snippet="seats" class="cinema" style="position: relative; width: 210px">
+            {foreach $seats as $key => $seat}
+                <a id="{$key}" class="ajax" href="#"><div class="{$seat|stateColor}" style="float: left;"></div></a>
+                {*<a id="{$key}" class="ajax" n:href="Reservation!, $key"><div class="{$seat|stateColor}" style="float: left;"></div></a>*}
+                {*<div id="{$key}" class="{$seat|stateColor}" style="float: left;"></div>*}
+            {/foreach}
+        </div>
+    </div>
+</div>
