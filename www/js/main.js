@@ -87,7 +87,7 @@ $(document).ready(function(){
                         selected.splice( $.inArray(seat, selected), 1 );
                         cur--;
                     } else {
-                        alert('We are sorry but this seat is alredy taken.');
+                        alert('We are sorry but this seat is already taken.');
                     }
                 }
                 /*currPos=obj.pos;
