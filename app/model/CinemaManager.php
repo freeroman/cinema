@@ -65,4 +65,34 @@ class CinemaManager
                     ->fetchAll();
         }
     }
+    
+    public function getPerformancesByCinema($cinema) {
+        return $this->database->select('*')
+                ->from('performances')
+                ->leftJoin('films')
+                ->using('(id_films)')
+                ->where('id_cinemas=%i', $cinema, ' AND start_dt>=NOW()')
+                ->orderBy('start_dt')
+                ->fetchAll();       
+    }
+    
+    public function getFilms(){
+        return $this->database->select('id_films, name')->from('films')->fetchPairs();
+    }
+    
+    public function getCinemas(){
+        return $this->database->select('id_cinemas, name')->from('cinemas')->fetchPairs();
+    }
+    
+    public function insertPerformance($data) {
+        $this->database->insert('performances', $data)->execute();
+    }
+    
+    public function insertFilm($data) {
+        $this->database->insert('films', $data)->execute();
+    }
+    
+    public function insertCinema($data) {
+        $this->database->insert('cinemas', $data)->execute();
+    }
 }

@@ -11,7 +11,11 @@ body {
     margin: 2px;
 }
 
-.md-modal {
+#add form {
+    display: none;
+}
+
+.md-performance {
     position: fixed;
     top: 50px;
     left: 50%;

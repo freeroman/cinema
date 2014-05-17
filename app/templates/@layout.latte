@@ -25,22 +25,26 @@
 
 <body>
 	<script> document.documentElement.className+=' js' </script>
-        {snippet flash}
-	<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
-        {/snippet}
         
         <div class="container">
         <div class="header">
-          <ul class="nav nav-pills pull-right">
-            <li class="active"><a n:href="Homepage:">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
+            {if !$userLoggedIn}
+            <ul class="nav nav-pills pull-right">
+                <li {ifCurrent Homepage:default}class="active"{/ifCurrent}><a n:href="Homepage:">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
             <h3 class="text-muted"><a n:href="Homepage:">Cinema</a></h3>
+            {else}
+            <h3 class="text-muted"><a n:href="Administration:">Administration</a></h3>
+            {/if}
         </div>
             
-            
+	<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">{$flash->message}</div>
+        
         {include content}
+        
+        
         {*
           <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
           <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
@@ -72,7 +76,12 @@
         *}
 
         <div class="footer">
-          <p>&copy; Roman Pechal 2014</p>
+            {*<p>&copy; Roman Pechal 2014</p>*}
+            {if !$userLoggedIn}
+            <p class="text-right"><a n:href="Sign:in">Sign in</a></p>
+            {else}
+            <p class="text-right"><a n:href="Sign:out">Sign out</a></p>
+            {/if}
         </div>
 
 	{block scripts}

@@ -31,7 +31,7 @@ function check(client, url){
 }
 
 $(document).ready(function(){  
-    var pocet = 1;
+    var pocet = 4;
     var cur = 0;
     var seat;
     var str = window.location.pathname.match('booking/([0-9]+)');
@@ -85,7 +85,7 @@ $(document).ready(function(){
                         selected.push(seat);
                         cur++;
                     } else {
-                        alert('You can not book more seats than you selected.');
+                        alert('You can not book more than ' + pocet + ' seats.');
                     }
                 } else {
                     if($.inArray(seat, selected)!==-1){
@@ -107,10 +107,18 @@ $(document).ready(function(){
             }
         }
     };
-    
-    $('#seats-number').on("click", function(){
+    /*
+    $('#seats-number').on("click", function(ev){
+        if(cur>pocet){
+            alert("You have selected");
+        }
         pocet = this.value;
-        //console.log(pocet);
+    });*/
+    
+    $('#frm-selectCinemas-cinema').on("change", function(){
+        $.nette.ajax({
+            url: window.location.pathname + "homepage/default/"+$(this).find('option:selected').val()+"?do=Cinemas"
+        });
     });
     
     $('#proceed').on("click", function(ev){
@@ -130,15 +138,23 @@ $(document).ready(function(){
         check(client, "/check.php?seat="+seat+"&id="+performance);
     });
     
-    /*
-    var dom = $(".md-modal");
+    
+    //var dom = $(".md-modal");
     
     $(".md-overlay").click(function(){
-        dom.removeClass("md-show");
+        $(".modal div").removeClass("md-show");
         location.reload();
     });
     
-    $(".show-md").click(function(){
-        dom.addClass("md-show");
-    });*/
+    $("#add-perfomrnace").click(function(){
+        $("#frm-newPerformance").toggle();
+    });
+    
+    $("#add-film").click(function(){
+        $("#frm-newFilm").toggle();
+    });
+    
+    $("#add-cinema").click(function(){
+        $("#frm-newCinema").toggle();
+    });
 });

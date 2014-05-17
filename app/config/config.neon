@@ -34,3 +34,4 @@ services:
 	- App\RouterFactory
 	router: @App\RouterFactory::createRouter
 	cinema: CinemaManager(@db.connection)
+	authenticator: App\Model\UserManager(@db.connection)

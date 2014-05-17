@@ -12,6 +12,9 @@ use Nette,
 class HomepagePresenter extends BasePresenter
 {
     private $performance;
+    
+     /** @persistent */
+    public $cinema;
 
     public function renderBooking($id)
     {
@@ -23,7 +26,7 @@ class HomepagePresenter extends BasePresenter
     }
     
     public function renderDefault() {
-        $this->template->performances = $this->context->cinema->getPerformances();        
+        $this->template->performances = $this->cinema === null ? $this->context->cinema->getPerformancesByCinema(1) : $this->context->cinema->getPerformancesByCinema($this->cinema);        
     }
     
     public function renderCompleted($code) {
@@ -36,6 +39,26 @@ class HomepagePresenter extends BasePresenter
 
     public function handleReload() {
         $this->redrawControl('seats');
+    }
+    
+    protected function createComponentSelectCinemas()
+    {
+        $form = new Nette\Application\UI\Form;
+        $form->addSelect('cinema', 'Cinema', $this->context->cinema->getCinemas())
+                ->setAttribute('class', 'form-control');
+
+        $renderer = $form->getRenderer();
+        $renderer->wrappers['controls']['container'] = null;
+        $renderer->wrappers['pair']['.error'] = 'has-error';
+        $renderer->wrappers['control']['container'] = 'div class=form-group';
+        $renderer->wrappers['control']['description'] = 'span class=help-block';
+        $renderer->wrappers['control']['errorcontainer'] = 'span class=help-block';
+        return $form;
+    }
+    
+    public function handleCinemas($id) {
+        $this->cinema = $id;
+        $this->redrawControl('cinemas');
     }
     
     public function handleReservation($seat) {
@@ -53,61 +76,5 @@ class HomepagePresenter extends BasePresenter
         } else {
             echo json_encode(array('a' => 'true'));
         }
-    }
-    
-    protected function createComponentTickets()
-    {
-        $form = new Nette\Application\UI\Form();
-        $form->addGroup('Tickets');
-        $form->addText('first_name', 'First name*')
-                ->setRequired('Name is mandatory')
-                ->addRule(\Nette\Application\UI\Form::INTEGER, 'Cislo')
-                ->setAttribute('class', 'form-control');
-        /*
-        $form->addText('surname', 'Surname*')
-                ->setRequired('Surname is mandatory')
-                ->setAttribute('class', 'form-control');
-        $form->addText('job_title', 'Job title*')
-                ->setRequired('Job title is mandatory')
-                ->setAttribute('class', 'form-control');
-        //$form->addDateTimePicker('datum_narozeni', 'Datum narozeni:', 16, 16);
-        $form->setCurrentGroup(NULL);
-
-        //$form->addGroup()
-        //        ->setOption('container', 'div class=prazdna_skupina');
-
-        $form->addGroup('Account info')
-                ->setOption('container', 'fieldset id=adress');
-        $form->addText('login', 'Login*')
-                ->setRequired('Login is mandatory')
-                ->setAttribute('class', 'form-control');
-        $form->addText('password', 'Password*')
-                ->setRequired('Password is mandatory')
-                ->setAttribute('class', 'form-control');            
-        $form->addText('role', 'Role*')
-                ->setRequired('Role is mandatory')
-                ->setAttribute('class', 'form-control');
-        $form->addUpload('avatar', 'Portrait')
-                ->addRule(\Nette\Application\UI\Form::IMAGE, 'File has to be image');*/
-                //->addRule(\Nette\Application\UI\Form::MAX_FILE_SIZE, 'File is too large (maximum 64 kB).', 64 * 1024 /* v bytech */);
-        $form->addSubmit('send', 'Create')
-            ->setAttribute('class', 'btn btn-default');
-
-        $renderer = $form->getRenderer();
-        $renderer->wrappers['controls']['container'] = 'div class=col-md-4';
-        //$renderer->wrappers['pair']['container'] = 'div class=form-group';
-        $renderer->wrappers['pair']['.error'] = 'has-error';
-        $renderer->wrappers['control']['container'] = 'div class=form-group';
-        //$renderer->wrappers['label']['container'] = 'small';
-        $renderer->wrappers['control']['description'] = 'span class=help-block';
-        $renderer->wrappers['control']['errorcontainer'] = 'span class=help-block';
-
-        $form->onSuccess[] =  callback($this, 'processTickets');
-        return $form;
-    }
-    
-    public function processTickets($form) {
-        $values = $form->getValues();
-        //$this->redirect('Homepage:booking', $this->performance);
     }
 }

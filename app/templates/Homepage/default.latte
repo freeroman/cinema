@@ -2,15 +2,18 @@
 
 <div class="jumbotron">
     <h2>Upcoming performances</h2>
-{foreach $performances as $show}
-    <a n:href="Homepage:booking, $show->id_performances">
-        <div class="panel panel-default show-md">
-            <div class="panel-body">
-                {$show->name} at {$show->start_dt|date:'d. M H:i'}
+    {control selectCinemas}
+{snippet cinemas}
+    {foreach $performances as $show}
+        <a n:href="Homepage:booking, $show->id_performances">
+            <div class="panel panel-default show-md">
+                <div class="panel-body">
+                    {$show->name} at {$show->start_dt|date:'d. M H:i'}
+                </div>
             </div>
-        </div>
-    </a>
-{/foreach}
+        </a>
+    {/foreach}
+{/snippet}
 </div>
 
 {*
