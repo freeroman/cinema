@@ -26,6 +26,10 @@ class HomepagePresenter extends BasePresenter
         $this->template->performances = $this->context->cinema->getPerformances();        
     }
     
+    public function renderCompleted($code) {
+        $this->template->code = $code;        
+    }
+    
     public function actionBooking($id) {
         $this->performance = $id;        
     }
@@ -42,11 +46,13 @@ class HomepagePresenter extends BasePresenter
         $this->redrawControl();
     }
     
-    public function handleCheck($seat) {
+    public function actionCheck($seat) {
+        $this->setLayout(FALSE);
         if(!$this->context->cinema->reserveSeat($seat, $this->performance)){
             echo json_encode(array('a' => 'false'));
+        } else {
+            echo json_encode(array('a' => 'true'));
         }
-        echo json_encode(array('a' => 'true'));
     }
     
     protected function createComponentTickets()

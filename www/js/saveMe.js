@@ -35,7 +35,7 @@ $(document).ready(function(){
     var cur = 0;
     var seat;
     var str = window.location.pathname.match('booking/([0-9]+)');
-    var performance = str!==null ? str[1] : null;
+    var performance = str[1];
     var selected = new Array();
     var elem;
     var code = null;
@@ -61,8 +61,6 @@ $(document).ready(function(){
             if (this.status==200) {
                 console.log(this.responseText);
                 code = JSON.parse(this.responseText);
-                var href = window.location.href.match('(.*)/[^/]+/[^/]+$');
-                window.location.href = href[1] + "/completed?code="+code;
             }
         }
     };
@@ -76,11 +74,11 @@ $(document).ready(function(){
                     if(cur<pocet)
                     {
                         $.nette.ajax({
-                            url: window.location.pathname + "?seat="+seat+"&do=Reservation"/*,
+                            url: window.location.pathname + "?seat="+seat+"&do=Reservation",
                             success: function(payload){
                                 console.log('Test');
                                 console.log(payload);
-                            }*/
+                            }
                         });
                         selected.push(seat);
                         cur++;
@@ -130,7 +128,6 @@ $(document).ready(function(){
         check(client, "/check.php?seat="+seat+"&id="+performance);
     });
     
-    /*
     var dom = $(".md-modal");
     
     $(".md-overlay").click(function(){
@@ -140,5 +137,5 @@ $(document).ready(function(){
     
     $(".show-md").click(function(){
         dom.addClass("md-show");
-    });*/
+    });
 });
