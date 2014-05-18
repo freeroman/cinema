@@ -1,0 +1,22 @@
+{* Latte template *}
+
+{block content}
+<h3>Reservations</h3>
+<table class="table table-striped">
+    <thead>
+        <th>Cinema</th>
+        <th>Film</th>
+        <th>Performance</th>
+        <th>Seat</th>
+        <th>Code</th>
+    </thead>
+    {foreach $reservations as $reservation}
+        <tr>
+            <td>{$reservation->name}</td>
+            <td>{$reservation->film}</td>
+            <td>{$reservation->start_dt}</td>
+            <td>{$reservation->seat}</td>
+            <td>{$reservation->code}</td>
+        </tr>
+    {/foreach}
+</table>

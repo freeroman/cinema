@@ -12,6 +12,10 @@ $(function(){
         }, 5000);
     }
     
+    setTimeout(function(){
+            location.reload();
+        }, 300000);
+    
     function get_seats(){ 
         $.nette.ajax({
             url: window.location.pathname + "?do=reload",
@@ -89,7 +93,7 @@ $(document).ready(function(){
                     }
                 } else {
                     if($.inArray(seat, selected)!==-1){
-                        check(update, "/check.php?seat="+seat+"&id="+performance+"&state=3");                        
+                        check(update, "/cinema/www/check.php?seat="+seat+"&id="+performance+"&state=3");                        
                         selected.splice( $.inArray(seat, selected), 1 );
                         cur--;
                     } else {
@@ -128,23 +132,23 @@ $(document).ready(function(){
             return;
         }
         var arr = JSON.stringify(selected);
-        check(insert, "/check.php?id="+performance+"&state=1&seats="+arr);
+        check(insert, "/cinema/www/check.php?id="+performance+"&state=1&seats="+arr);
     });
     
     $('.cinema').on('click', 'a', function(ev){
         ev.preventDefault();
         seat = this.id;
         elem = this;
-        check(client, "/check.php?seat="+seat+"&id="+performance);
+        check(client, "/cinema/www/check.php?seat="+seat+"&id="+performance);
     });
     
     
     //var dom = $(".md-modal");
-    
+    /*
     $(".md-overlay").click(function(){
         $(".modal div").removeClass("md-show");
         location.reload();
-    });
+    });*/
     
     $("#add-perfomrnace").click(function(){
         $("#frm-newPerformance").toggle();

@@ -14,7 +14,7 @@ if(!empty($_GET['seats']) && !empty($_GET['id']) && !empty($_GET['state']))
 {
 	$arr = json_decode($_GET['seats']);
 	
-	$stmt = $db->prepare("UPDATE bookings SET id_booking_states=:state, code=:code WHERE seat=:seat AND id_performances=:id");
+	$stmt = $db->prepare("UPDATE bookings SET id_booking_states=:state, code=:code, created_dt=NOW() WHERE seat=:seat AND id_performances=:id");
 	$stmt->bindValue(':id', $_GET['id']);
 	$stmt->bindValue(':state', $_GET['state']);
 	$code = uniqid();
@@ -29,7 +29,7 @@ if(!empty($_GET['seats']) && !empty($_GET['id']) && !empty($_GET['state']))
 } 
 elseif(!empty($_GET['seat']) && !empty($_GET['id']) && !empty($_GET['state']))
 {
-	$stmt = $db->prepare("UPDATE bookings SET id_booking_states=:state WHERE seat=:seat AND id_performances=:id");
+	$stmt = $db->prepare("UPDATE bookings SET id_booking_states=:state, created_dt=NOW() WHERE seat=:seat AND id_performances=:id");
 	
 	$stmt->bindValue(':seat', $_GET['seat']);
 	$stmt->bindValue(':id', $_GET['id']);

@@ -62,7 +62,7 @@ class SignPresenter extends BasePresenter
 
 		try {
 			$this->getUser()->login($values->username, $values->password);
-			$this->redirect('Administration:');
+			$this->redirect('Administration:reservation');
 
 		} catch (Nette\Security\AuthenticationException $e) {
 			$form->addError($e->getMessage());

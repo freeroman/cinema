@@ -11,6 +11,10 @@ use Nette,
  */
 class AdministrationPresenter extends SecurePresenter
 {
+    public function renderReservation() {
+        $this->template->reservations = $this->context->cinema->getReservations();        
+    }
+    
     protected function createComponentNewPerformance()
     {
         $form = new Nette\Application\UI\Form;

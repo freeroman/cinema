@@ -30,23 +30,40 @@ class CinemaManager
                 ->fetchPairs();
     }
     
+    public function getReservations(){
+        return $this->database->select('bookings.*, performances.*, cinemas.*, films.name film')
+                ->from('bookings')
+                ->leftJoin('booking_states')
+                ->using('(id_booking_states)')
+                ->leftJoin('performances')
+                ->using('(id_performances)')
+                ->leftJoin('films')
+                ->using('(id_films)')
+                ->leftJoin('cinemas')
+                ->using('(id_cinemas)')
+                ->where('id_booking_states=1 AND start_dt>=NOW()')
+                ->orderBy('start_dt, cinemas.name, code, seat')
+                ->fetchAll();
+    }
+    
     public function reserveSeat($seat, $performance) {
         if($this->database->select('*')
                 ->from('bookings')
                 ->where('seat=%i', $seat,'AND id_performances=%i', $performance, 'AND (id_booking_states=1 OR id_booking_states=2)')->fetch())
-        return false;
+            return false;
         if($this->database->select('*')
                 ->from('bookings')
                 ->where('seat=%i', $seat,'AND id_performances=%i', $performance)->fetch())
         {
-            $this->database->update('bookings', array('id_booking_states' => 2))
+            $this->database->update('bookings', array('id_booking_states' => 2, 'created_dt' => date('Y-m-d H-i-s')))
                     ->where('seat=%i', $seat,'AND id_performances=%i', $performance)
                     ->execute();
         } else {
             $this->database->insert('bookings', array(
                 'id_booking_states' => 2,
                 'id_performances' => $performance,
-                'seat' => $seat
+                'seat' => $seat,
+                'created_dt' => date('Y-m-d H-i-s')
             ))->execute();
         }
         return true;

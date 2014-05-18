@@ -64,7 +64,6 @@ class HomepagePresenter extends BasePresenter
     public function handleReservation($seat) {
         if(!$this->context->cinema->reserveSeat($seat, $this->performance)){
             $this->flashMessage('We are sorry, but this seat is taken!');
-            $this->redrawControl('flash');
         }
         $this->redrawControl();
     }
